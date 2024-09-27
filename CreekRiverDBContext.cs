@@ -40,6 +40,35 @@ public class CreekRiverDbContext : DbContext
         new UserProfile { Id = 2, FirstName = "Jane", LastName = "Smith", Email = "janesmith@example.com" }
     });
 
+    modelBuilder.Entity<Reservation>().HasData(new Reservation[]
+{
+    new Reservation
+    {
+        Id = 1,
+        CampsiteId = 1,
+        UserProfileId = 1,
+        CheckinDate = new DateTime(2024, 6, 15),
+        CheckoutDate = new DateTime(2024, 6, 20)
+    },
+    new Reservation
+    {
+        Id = 2,
+        CampsiteId = 2,
+        UserProfileId = 2,
+        CheckinDate = new DateTime(2024, 7, 5),
+        CheckoutDate = new DateTime(2024, 7, 12)
+    },
+    new Reservation
+    {
+        Id = 3,
+        CampsiteId = 3,
+        UserProfileId = 1,
+        CheckinDate = new DateTime(2024, 8, 10),
+        CheckoutDate = new DateTime(2024, 8, 15)
+    }
+});
+
+
 }
 
     
