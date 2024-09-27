@@ -1,4 +1,4 @@
-namespace CreekRiver.Models
+namespace CreekRiver.Models.DTOs
 
 {
     public class ReservationDTO
