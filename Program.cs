@@ -2,6 +2,7 @@ using CreekRiver.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
+using CreekRiver.Models.DTOs;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,29 +30,40 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+// var summaries = new[]
+// {
+//     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+// };
 
-app.MapGet("/weatherforecast", () =>
+// app.MapGet("/weatherforecast", () =>
+// {
+//     var forecast =  Enumerable.Range(1, 5).Select(index =>
+//         new WeatherForecast
+//         (
+//             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+//             Random.Shared.Next(-20, 55),
+//             summaries[Random.Shared.Next(summaries.Length)]
+//         ))
+//         .ToArray();
+//     return forecast;
+// })
+// .WithName("GetWeatherForecast")
+// .WithOpenApi();
+app.MapGet("/api/campsites", (CreekRiverDbContext db) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+    return db.Campsites
+    .Select(c => new CampsiteDTO
+    {
+        Id = c.Id,
+        Nickname = c.Nickname,
+        ImageUrl = c.ImageUrl,
+        CampsiteTypeId = c.CampsiteTypeId
+    }).ToList();
+});
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+// record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+// {
+//     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+// }
