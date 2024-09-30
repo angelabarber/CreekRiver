@@ -61,6 +61,25 @@ app.MapGet("/api/campsites", (CreekRiverDbContext db) =>
     }).ToList();
 });
 
+app.MapGet("/api/campsites/{id}", (CreekRiverDbContext db, int id) =>
+{
+    return db.Campsites
+        .Include(c => c.CampsiteType)
+        .Select(c => new CampsiteDTO
+        {
+            Id = c.Id,
+            Nickname = c.Nickname,
+            CampsiteTypeId = c.CampsiteTypeId,
+            CampsiteType = new CampsiteTypeDTO
+            {
+                Id = c.CampsiteType.Id,
+                CampsiteTypeName = c.CampsiteType.CampsiteTypeName,
+                FeePerNight = c.CampsiteType.FeePerNight,
+                MaxReservationDays = c.CampsiteType.MaxReservationDays
+            }
+        })
+        .Single(c => c.Id == id);
+});
 app.Run();
 
 // record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
