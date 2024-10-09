@@ -10,5 +10,5 @@ public class CampsiteDTO
     public string ImageUrl { get; set; }
     public int CampsiteTypeId { get; set; }
     public CampsiteTypeDTO CampsiteType { get; set; }
-    public List<Reservation> Reservations { get; set; }
+    public List<ReservationDTO> Reservations { get; set; }
 }

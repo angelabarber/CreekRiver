@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using CreekRiver.Models.DTOs;
 
 namespace CreekRiver.Models;
 
@@ -14,4 +15,8 @@ public class UserProfile
 
     public List<Reservation> Reservations { get; set; }
 
+    public static implicit operator UserProfile(UserProfileDTO v)
+    {
+        throw new NotImplementedException();
+    }
 }
